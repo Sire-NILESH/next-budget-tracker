@@ -229,7 +229,7 @@ function TransactionTable({ from, to }: Props) {
         </div>
       </div>
       <SkeletonWrapper isLoading={history.isFetching}>
-        <div className="rounded-md border">
+        <div className="rounded-md border flex-1">
           <Table>
             <TableHeader>
               {table.getHeaderGroups().map((headerGroup) => (

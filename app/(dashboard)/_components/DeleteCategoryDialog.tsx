@@ -68,7 +68,7 @@ function DeleteCategoryDialog({ category, trigger }: Props) {
               });
             }}
           >
-            Continue
+            Delete
           </AlertDialogAction>
         </AlertDialogFooter>
       </AlertDialogContent>

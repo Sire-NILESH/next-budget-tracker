@@ -123,7 +123,10 @@ function CreateTransactionDialog({ trigger, type }: Props) {
           </DialogTitle>
         </DialogHeader>
         <Form {...form}>
-          <form className="space-y-4" onSubmit={form.handleSubmit(onSubmit)}>
+          <form
+            className="space-y-6 sm:space-y-4"
+            onSubmit={form.handleSubmit(onSubmit)}
+          >
             <FormField
               control={form.control}
               name="description"
@@ -155,7 +158,7 @@ function CreateTransactionDialog({ trigger, type }: Props) {
               )}
             />
 
-            <div className="flex items-center justify-between gap-2">
+            <div className="flex flex-wrap items-center justify-between gap-6 sm:gap-2">
               <FormField
                 control={form.control}
                 name="category"
@@ -232,7 +235,11 @@ function CreateTransactionDialog({ trigger, type }: Props) {
               Cancel
             </Button>
           </DialogClose>
-          <Button onClick={form.handleSubmit(onSubmit)} disabled={isPending}>
+          <Button
+            className="mb-2 sm:mb-0"
+            onClick={form.handleSubmit(onSubmit)}
+            disabled={isPending}
+          >
             {!isPending && "Create"}
             {isPending && <Loader2 className="animate-spin" />}
           </Button>

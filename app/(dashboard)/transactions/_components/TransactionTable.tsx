@@ -183,7 +183,7 @@ function TransactionTable({ from, to }: Props) {
   }, [history.data]);
 
   return (
-    <div className="w-full">
+    <div className="w-full min-h-full bg-card border rounded-lg p-4">
       <div className="flex flex-wrap items-end justify-between gap-2 py-4">
         <div className="flex gap-2">
           {table.getColumn("category") && (

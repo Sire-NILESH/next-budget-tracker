@@ -5,7 +5,7 @@ function layout({ children }: { children: ReactNode }) {
   return (
     <div className="relative flex h-screen w-full flex-col">
       <Navbar />
-      <div className="w-full pb-4">{children}</div>
+      <div className="w-full flex-1 py-4 bg-tertiary">{children}</div>
     </div>
   );
 }

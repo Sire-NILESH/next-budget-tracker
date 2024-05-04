@@ -19,13 +19,15 @@ import { Category } from "@prisma/client";
 import { useQuery } from "@tanstack/react-query";
 import { PlusSquare, TrashIcon, TrendingDown, TrendingUp } from "lucide-react";
 import React from "react";
+import PageHeaderCard from "../_components/PageHeaderCard";
+import { Calendar } from "@/components/ui/calendar";
 
 function page() {
   return (
     <>
       {/* HEADER */}
-      <div className="border-b bg-card">
-        <div className="container flex flex-wrap items-center justify-between gap-6 py-8">
+      <PageHeaderCard>
+        <div className="flex flex-wrap items-center justify-between gap-6 py-8">
           <div>
             <p className="text-3xl font-bold">Manage</p>
             <p className="text-muted-foreground">
@@ -33,7 +35,7 @@ function page() {
             </p>
           </div>
         </div>
-      </div>
+      </PageHeaderCard>
       {/* END HEDER */}
       <div className="container flex flex-col gap-4 p-4">
         <Card>
@@ -69,15 +71,18 @@ function CategoryList({ type }: { type: TransactionType }) {
     <SkeletonWrapper isLoading={categoriesQuery.isLoading}>
       <Card>
         <CardHeader>
-          <CardTitle className="flex items-center justify-between gap-2">
+          <CardTitle className="flex flex-wrap items-center justify-between gap-4 sm:gap-2">
             <div className="flex items-center gap-2">
               {type === "expense" ? (
-                <TrendingDown className="h-12 w-12 items-center rounded-lg bg-red-400/10 p-2 text-red-500" />
+                <TrendingDown className="size-10 sm:size-12 items-center rounded-lg bg-red-400/10 p-2 text-red-500" />
               ) : (
-                <TrendingUp className="h-12 w-12 items-center rounded-lg bg-emerald-400/10 p-2 text-emerald-500" />
+                <TrendingUp className="size-10 sm:size-12 items-center rounded-lg bg-emerald-400/10 p-2 text-emerald-500" />
               )}
               <div>
-                {type === "income" ? "Incomes" : "Expenses"} categories
+                <p className="">
+                  {" "}
+                  {type === "income" ? "Incomes" : "Expenses"} categories{" "}
+                </p>
                 <div className="text-sm text-muted-foreground">
                   Sorted by name
                 </div>
@@ -88,7 +93,7 @@ function CategoryList({ type }: { type: TransactionType }) {
               type={type}
               successCallback={() => categoriesQuery.refetch()}
               trigger={
-                <Button className="gap-2 text-sm">
+                <Button className="w-full sm:w-auto gap-2 text-sm">
                   <PlusSquare className="h-4 w-4" />
                   Create category
                 </Button>
@@ -118,7 +123,7 @@ function CategoryList({ type }: { type: TransactionType }) {
           </div>
         )}
         {dataAvailable && (
-          <div className="grid grid-flow-row gap-2 p-2 sm:grid-flow-row sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
+          <div className="grid grid-flow-row gap-2 p-4 sm:grid-flow-row sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
             {categoriesQuery.data.map((category: Category) => (
               <CategoryCard category={category} key={category.name} />
             ))}
@@ -131,7 +136,7 @@ function CategoryList({ type }: { type: TransactionType }) {
 
 function CategoryCard({ category }: { category: Category }) {
   return (
-    <div className="flex border-separate flex-col justify-between rounded-md border shadow-md shadow-black/[0.1] dark:shadow-none">
+    <div className="flex border-separate flex-col justify-between rounded-md border shadow-sm shadow-black/[0.1] dark:shadow-none">
       <div className="flex flex-col items-center gap-2 p-4">
         <span className="text-3xl" role="img">
           {category.icon}

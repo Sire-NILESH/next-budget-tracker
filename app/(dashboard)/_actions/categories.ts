@@ -58,7 +58,6 @@ export async function EditCategory(form: EditCategorySchemaType) {
         },
       },
       data: {
-        userId: user.id,
         icon: update.icon,
         name: update.name,
       },
@@ -66,6 +65,7 @@ export async function EditCategory(form: EditCategorySchemaType) {
 
     prisma.transaction.updateMany({
       where: {
+        userId: user.id,
         category: current.name,
         categoryIcon: current.icon,
       },

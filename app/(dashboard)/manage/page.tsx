@@ -16,11 +16,17 @@ import { Separator } from "@/components/ui/separator";
 import { TransactionType } from "@/lib/types";
 import { cn } from "@/lib/utils";
 import { Category } from "@prisma/client";
-import { useQuery } from "@tanstack/react-query";
-import { PlusSquare, TrashIcon, TrendingDown, TrendingUp } from "lucide-react";
-import React from "react";
+import { QueryObserverResult, useQuery } from "@tanstack/react-query";
+import {
+  EditIcon,
+  PlusSquare,
+  TrashIcon,
+  TrendingDown,
+  TrendingUp,
+} from "lucide-react";
+import { useCallback } from "react";
+import EditCategoryDialog from "../_components/EditCategoryDialog";
 import PageHeaderCard from "../_components/PageHeaderCard";
-import { Calendar } from "@/components/ui/calendar";
 
 function page() {
   return (
@@ -67,6 +73,11 @@ function CategoryList({ type }: { type: TransactionType }) {
 
   const dataAvailable = categoriesQuery.data && categoriesQuery.data.length > 0;
 
+  const categoryMutationSuccessCallback = useCallback(
+    () => categoriesQuery.refetch(),
+    [categoriesQuery]
+  );
+
   return (
     <SkeletonWrapper isLoading={categoriesQuery.isLoading}>
       <Card>
@@ -91,7 +102,8 @@ function CategoryList({ type }: { type: TransactionType }) {
 
             <CreateCategoryDialog
               type={type}
-              successCallback={() => categoriesQuery.refetch()}
+              // successCallback={() => categoriesQuery.refetch()}
+              successCallback={categoryMutationSuccessCallback}
               trigger={
                 <Button className="w-full sm:w-auto gap-2 text-sm">
                   <PlusSquare className="h-4 w-4" />
@@ -125,7 +137,14 @@ function CategoryList({ type }: { type: TransactionType }) {
         {dataAvailable && (
           <div className="grid grid-flow-row gap-2 p-4 sm:grid-flow-row sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
             {categoriesQuery.data.map((category: Category) => (
-              <CategoryCard category={category} key={category.name} />
+              <CategoryCard
+                key={category.name}
+                category={category}
+                type={type}
+                categoryMutationSuccessCallback={
+                  categoryMutationSuccessCallback
+                }
+              />
             ))}
           </div>
         )}
@@ -134,27 +153,55 @@ function CategoryList({ type }: { type: TransactionType }) {
   );
 }
 
-function CategoryCard({ category }: { category: Category }) {
+function CategoryCard({
+  category,
+  type,
+  categoryMutationSuccessCallback,
+}: {
+  category: Category;
+  type: TransactionType;
+  categoryMutationSuccessCallback: () => Promise<
+    QueryObserverResult<any, Error>
+  >;
+}) {
   return (
-    <div className="flex border-separate flex-col justify-between rounded-md border shadow-sm shadow-black/[0.1] dark:shadow-none">
+    <div className="flex border-separate flex-col justify-between rounded-md border shadow-sm shadow-black/[0.1] dark:shadow-none overflow-hidden">
       <div className="flex flex-col items-center gap-2 p-4">
         <span className="text-3xl" role="img">
           {category.icon}
         </span>
         <span>{category.name}</span>
       </div>
-      <DeleteCategoryDialog
-        category={category}
-        trigger={
-          <Button
-            className="flex w-full border-separate items-center gap-2 rounded-t-none text-muted-foreground hover:bg-red-500/20"
-            variant={"secondary"}
-          >
-            <TrashIcon className="h-4 w-4" />
-            Remove
-          </Button>
-        }
-      />
+
+      <div className="flex divide-x divide-gray-300 dark:divide-gray-900">
+        <DeleteCategoryDialog
+          category={category}
+          trigger={
+            <Button
+              className="flex w-full border-separate items-center gap-2 rounded-none text-muted-foreground hover:bg-red-500/20"
+              variant={"secondary"}
+            >
+              <TrashIcon className="h-4 w-4" />
+              Remove
+            </Button>
+          }
+        />
+
+        <EditCategoryDialog
+          category={category}
+          type={type}
+          successCallback={() => categoryMutationSuccessCallback}
+          trigger={
+            <Button
+              className="flex w-full border-separate items-center gap-2 rounded-none text-muted-foreground hover:bg-blue-500/20"
+              variant={"secondary"}
+            >
+              <EditIcon className="h-4 w-4" />
+              Edit
+            </Button>
+          }
+        />
+      </div>
     </div>
   );
 }

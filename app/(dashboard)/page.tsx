@@ -7,6 +7,13 @@ import { currentUser } from "@clerk/nextjs";
 import { redirect } from "next/navigation";
 import React from "react";
 import PageHeaderCard from "./_components/PageHeaderCard";
+import { Metadata } from "next";
+
+export const metadata: Metadata = {
+  title: "Dashboard",
+  description:
+    "The Dashboard is the heart of WalletWatch, providing a comprehensive overview of your financial status at a glance. It displays your total income and expenses, neatly categorized for easy understanding. Interactive charts and graphs offer visual insights into your spending patterns and savings progress.",
+};
 
 async function page() {
   const user = await currentUser();

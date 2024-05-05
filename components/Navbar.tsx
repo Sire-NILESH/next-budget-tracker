@@ -3,6 +3,7 @@ import Logo, { LogoMobile } from "@/components/Logo";
 import { ThemeSwitcherBtn } from "@/components/ThemeSwitcherBtn";
 import { Button, buttonVariants } from "@/components/ui/button";
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
+import { menuItems } from "@/config/site";
 import { cn } from "@/lib/utils";
 import { UserButton } from "@clerk/nextjs";
 import { Menu } from "lucide-react";
@@ -41,7 +42,7 @@ function MobileNavbar() {
             {/* <Logo /> */}
             <LogoMobile />
             <div className="flex flex-col gap-1 pt-4">
-              {items.map((item) => (
+              {menuItems.navMenu.map((item) => (
                 <NavbarItem
                   key={item.label}
                   link={item.link}
@@ -71,7 +72,7 @@ function DesktopNavbar() {
         <div className="flex h-[80px] min-h-[60px] items-center gap-x-4">
           <Logo />
           <div className="flex h-full">
-            {items.map((item) => (
+            {menuItems.navMenu.map((item) => (
               <NavbarItem
                 key={item.label}
                 link={item.link}

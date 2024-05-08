@@ -1,6 +1,5 @@
 import { z } from "zod";
-
-export const TransactionTypeEnum = z.enum(["income", "expense"]);
+import { TransactionTypeEnum } from "./transaction";
 
 export const CategorySchema = z.object({
   name: z.string().min(3).max(20),

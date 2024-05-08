@@ -138,6 +138,7 @@ function CategoryCard({
             <Button
               className="flex w-full border-separate items-center gap-2 rounded-none text-muted-foreground hover:bg-red-500/20"
               variant={"secondary"}
+              clickAnimation={"absent"}
             >
               <TrashIcon className="h-4 w-4" />
               Remove
@@ -153,6 +154,7 @@ function CategoryCard({
             <Button
               className="flex w-full border-separate items-center gap-2 rounded-none text-muted-foreground hover:bg-blue-500/20"
               variant={"secondary"}
+              clickAnimation={"absent"}
             >
               <EditIcon className="h-4 w-4" />
               Edit

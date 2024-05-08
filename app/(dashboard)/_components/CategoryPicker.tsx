@@ -20,16 +20,19 @@ import { cn } from "@/lib/utils";
 import { Category } from "@prisma/client";
 import { useQuery } from "@tanstack/react-query";
 import { Check, ChevronsUpDown } from "lucide-react";
-import React, { useCallback, useEffect, useState } from "react";
+import React, { useCallback, useEffect } from "react";
 
 interface Props {
   type: TransactionType;
   onChange: (value: string) => void;
+  defaultCategory?: string;
 }
 
-function CategoryPicker({ type, onChange }: Props) {
+function CategoryPicker({ type, onChange, defaultCategory }: Props) {
   const [open, setOpen] = React.useState(false);
-  const [value, setValue] = React.useState("");
+  const [value, setValue] = React.useState(() =>
+    defaultCategory ? defaultCategory : ""
+  );
 
   useEffect(() => {
     if (!value) return;

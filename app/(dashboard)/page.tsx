@@ -42,7 +42,7 @@ async function page() {
               trigger={
                 <Button
                   variant={"outline"}
-                  className="border-emerald-500 bg-emerald-950 text-white hover:bg-emerald-700 hover:text-white"
+                  className="border-emerald-950 hover:border-emerald-700 dark:border-emerald-500 bg-emerald-950 text-white hover:bg-emerald-700 hover:text-white"
                 >
                   New income 🤑
                 </Button>
@@ -54,7 +54,7 @@ async function page() {
               trigger={
                 <Button
                   variant={"outline"}
-                  className="border-rose-500 bg-rose-950 text-white hover:bg-rose-700 hover:text-white"
+                  className="border-rose-950 hover:border-rose-700 dark:border-rose-500 bg-rose-950 text-white hover:bg-rose-700 hover:text-white"
                 >
                   New expense 😤
                 </Button>

@@ -4,9 +4,12 @@ import prisma from "@/lib/prisma";
 import {
   CreateTransactionSchema,
   CreateTransactionSchemaType,
+  EditTransactionSchema,
+  EditTransactionSchemaType,
 } from "@/schema/transaction";
 import { currentUser } from "@clerk/nextjs";
 import { redirect } from "next/navigation";
+import { Decimal } from "decimal.js";
 
 export async function CreateTransaction(form: CreateTransactionSchemaType) {
   const parsedBody = CreateTransactionSchema.safeParse(form);
@@ -101,4 +104,156 @@ export async function CreateTransaction(form: CreateTransactionSchemaType) {
       },
     }),
   ]);
+}
+
+export async function EditTransaction(form: EditTransactionSchemaType) {
+  const parsedBody = EditTransactionSchema.safeParse(form);
+  if (!parsedBody.success) {
+    throw new Error(parsedBody.error.message);
+  }
+
+  const user = await currentUser();
+  if (!user) {
+    redirect("/sign-in");
+  }
+
+  const {
+    transactionId,
+    transactionPayload: { amount, category, date, description, type },
+  } = parsedBody.data;
+
+  const currentTransaction = await prisma.transaction.findUnique({
+    where: {
+      id: transactionId,
+    },
+  });
+
+  if (!currentTransaction) {
+    throw new Error("transaction not found");
+  }
+
+  const categoryRow = await prisma.category.findFirst({
+    where: {
+      userId: user.id,
+      name: category,
+    },
+  });
+
+  if (!categoryRow) {
+    throw new Error("category not found");
+  }
+
+  // NOTE: don't make confusion between $transaction ( prisma ) and prisma.transaction (table)
+
+  const currentAmount = new Decimal(currentTransaction.amount);
+  const updateAmount = new Decimal(amount);
+
+  const updateAmountVal = updateAmount.toNumber();
+
+  const diffIsNegative = updateAmount.minus(currentAmount).isNegative();
+  const absoluteValueOfDifference = updateAmount
+    .minus(currentAmount)
+    .absoluteValue()
+    .toNumber();
+
+  await prisma.$transaction(async (tx) => {
+    await tx.transaction.update({
+      where: {
+        id: transactionId,
+      },
+      data: {
+        amount: updateAmountVal,
+        category,
+        // date,
+        description,
+        type,
+      },
+    });
+
+    // escape if user didn't change the amount
+    if (currentAmount.equals(updateAmount)) {
+      return;
+    }
+
+    // Update month history
+    await tx.monthHistory.update({
+      where: {
+        day_month_year_userId: {
+          userId: user.id,
+          day: currentTransaction.date.getUTCDate(),
+          month: currentTransaction.date.getUTCMonth(),
+          year: currentTransaction.date.getUTCFullYear(),
+        },
+      },
+      data: {
+        ...(diffIsNegative
+          ? type === "income"
+            ? {
+                // when type is "income"
+                income: {
+                  decrement: absoluteValueOfDifference,
+                },
+              }
+            : {
+                // when type is "expense"
+                expense: {
+                  decrement: absoluteValueOfDifference,
+                },
+              }
+          : type === "income"
+          ? {
+              // when type is "income"
+              income: {
+                increment: absoluteValueOfDifference,
+              },
+            }
+          : {
+              // when type is "expense"
+              expense: {
+                increment: absoluteValueOfDifference,
+              },
+            }),
+      },
+    });
+
+    // Update year aggreate
+    await tx.yearHistory.update({
+      where: {
+        month_year_userId: {
+          userId: user.id,
+          month: currentTransaction.date.getUTCMonth(),
+          year: currentTransaction.date.getUTCFullYear(),
+        },
+      },
+      data: {
+        ...(diffIsNegative
+          ? type === "income"
+            ? {
+                // when type is "income"
+                income: {
+                  decrement: absoluteValueOfDifference,
+                },
+              }
+            : {
+                // when type is "expense"
+                expense: {
+                  decrement: absoluteValueOfDifference,
+                },
+              }
+          : type === "income"
+          ? {
+              // when type is "income"
+              income: {
+                increment: absoluteValueOfDifference,
+              },
+            }
+          : {
+              // when type is "expense"
+              expense: {
+                increment: absoluteValueOfDifference,
+              },
+            }),
+      },
+    });
+  });
 }

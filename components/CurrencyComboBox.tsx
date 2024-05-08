@@ -85,13 +85,19 @@ export function CurrencyComboBox() {
       <SkeletonWrapper isLoading={userSettings.isFetching}>
         <Popover open={open} onOpenChange={setOpen}>
           <PopoverTrigger asChild>
-            <Button
-              variant="outline"
-              className="w-full justify-start"
-              disabled={mutation.isPending}
-            >
-              {selectedOption ? <>{selectedOption.label}</> : <>Set currency</>}
-            </Button>
+            <div className="w-full">
+              <Button
+                variant="outline"
+                className="w-full justify-start"
+                disabled={mutation.isPending}
+              >
+                {selectedOption ? (
+                  <>{selectedOption.label}</>
+                ) : (
+                  <>Set currency</>
+                )}
+              </Button>
+            </div>
           </PopoverTrigger>
           <PopoverContent className="w-[200px] p-0" align="start">
             <OptionList setOpen={setOpen} setSelectedOption={selectOption} />

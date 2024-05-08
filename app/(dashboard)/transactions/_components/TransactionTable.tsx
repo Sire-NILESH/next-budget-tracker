@@ -32,7 +32,12 @@ import { Button } from "@/components/ui/button";
 import { DataTableViewOptions } from "@/components/datatable/ColumnToggle";
 
 import { download, generateCsv, mkConfig } from "export-to-csv";
-import { DownloadIcon, MoreHorizontal, TrashIcon } from "lucide-react";
+import {
+  DownloadIcon,
+  Edit2Icon,
+  MoreHorizontal,
+  TrashIcon,
+} from "lucide-react";
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -42,6 +47,8 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import DeleteTransactionDialog from "@/app/(dashboard)/transactions/_components/DeleteTransactionDialog";
+import EditTransactionDialog from "./EditTransactionDialog";
+import { TransactionType } from "@/lib/types";
 
 interface Props {
   from: Date;
@@ -306,6 +313,7 @@ export default TransactionTable;
 
 function RowActions({ transaction }: { transaction: TransactionHistoryRow }) {
   const [showDeleteDialog, setShowDeleteDialog] = useState(false);
+  const [showEditDialog, setShowEditDialog] = useState(false);
 
   return (
     <>
@@ -314,6 +322,14 @@ function RowActions({ transaction }: { transaction: TransactionHistoryRow }) {
         setOpen={setShowDeleteDialog}
         transactionId={transaction.id}
       />
+
+      <EditTransactionDialog
+        transaction={transaction}
+        open={showEditDialog}
+        setOpen={setShowEditDialog}
+        type={transaction.type as TransactionType}
+      />
+
       <DropdownMenu>
         <DropdownMenuTrigger asChild>
           <Button variant={"ghost"} className="h-8 w-8 p-0 ">
@@ -332,6 +348,15 @@ function RowActions({ transaction }: { transaction: TransactionHistoryRow }) {
           >
             <TrashIcon className="h-4 w-4 text-muted-foreground" />
             Delete
+          </DropdownMenuItem>
+          <DropdownMenuItem
+            className="flex items-center gap-2"
+            onSelect={() => {
+              setShowEditDialog((prev) => !prev);
+            }}
+          >
+            <Edit2Icon className="h-4 w-4 text-muted-foreground" />
+            Edit
           </DropdownMenuItem>
         </DropdownMenuContent>
       </DropdownMenu>

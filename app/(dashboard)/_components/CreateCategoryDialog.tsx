@@ -82,7 +82,7 @@ function CreateCategoryDialog({ type, successCallback, trigger }: Props) {
 
       setOpen((prev) => !prev);
     },
-    onError: () => {
+    onError: (err) => {
       toast.error("Something went wrong", {
         id: "create-category",
       });
@@ -107,7 +107,7 @@ function CreateCategoryDialog({ type, successCallback, trigger }: Props) {
         ) : (
           <Button
             variant={"ghost"}
-            className="flex border-separate items-center justify-start roudned-none border-b px-3 py-3 text-muted-foreground"
+            className="flex border-separate items-center justify-start roudned-none m-1 px-3 py-3 text-muted-foreground"
           >
             <PlusSquare className="mr-2 h-4 w-4" />
             Create new

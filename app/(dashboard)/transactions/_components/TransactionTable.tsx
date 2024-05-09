@@ -236,11 +236,11 @@ function TransactionTable({ from, to }: Props) {
         </div>
       </div>
       <SkeletonWrapper isLoading={history.isFetching}>
-        <div className="rounded-md border flex-1">
+        <div className="rounded-md border flex-1 overflow-hidden">
           <Table>
             <TableHeader>
               {table.getHeaderGroups().map((headerGroup) => (
-                <TableRow key={headerGroup.id}>
+                <TableRow key={headerGroup.id} className="bg-muted">
                   {headerGroup.headers.map((header) => {
                     return (
                       <TableHead key={header.id}>

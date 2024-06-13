@@ -1,36 +1,46 @@
-This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
+# WalletWatch - Manage Your Finances with Ease
 
-## Getting Started
+▶️ Click the image below to watch it on **Youtube**.
 
-First, run the development server:
+<div  align="center">
+	<br />
+	<a  href="https://youtu.be/8zf4uAq510M?si=Gcywlk_FopmE23gK"  target="_blank">
+		<img  src="https://img.youtube.com/vi/8zf4uAq510M/maxresdefault.jpg"  alt="Project Banner">
+	</a>
+	<br />
+</div>
+
+
+## 🤖 Introduction
+
+Welcome to WalletWatch, your ultimate tool for managing your personal finances. With a comprehensive dashboard, the ability to create and manage income and expense categories, and robust transaction management, Budget Tracker makes it easy to keep track of your financial health. Visualize your spending habits with detailed graphs and enjoy a seamless experience with Clerk authentication.
+
+## ⚙️ Tech Stack
+
+- Next.js 14
+- Tailwind CSS
+- ShadCN UI
+- TanStack Query
+- Prisma ORM
+- PostgreSQL
+- Clerk Authentication
+
+## 🚀 Features
+
+- 📊 Comprehensive dashboard to get an overview of your finances 
+- 💰 Create and manage income and expense categories 
+- 📝 Store and manage transactions efficiently 
+-  📈 Graphs to visualize your spending habits 
+- 🔐 Secure authentication using Clerk 
+- 🌟 Clean, modern UI with ShadCN UI components 
+- 🛠️ Built with the latest Next.js 14 features
+- 🎁 ...and much more
+
+## 🛠️ Getting Started
+
+To get started with this project, run
 
 ```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+git  clone  https://github.com/Sire-NILESH/next-budget-tracker.git
 ```
-
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
-
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
-
-This project uses [`next/font`](https://nextjs.org/docs/basic-features/font-optimization) to automatically optimize and load Inter, a custom Google Font.
-
-## Learn More
-
-To learn more about Next.js, take a look at the following resources:
-
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
-
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js/) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/deployment) for more details.
+and copy the **.env.example** variables into a separate **.env file**, fill them out and that's all you need to get started!

@@ -34,14 +34,14 @@ function CategoriesStats({ userSettings, from, to }: Props) {
 
   return (
     <div className="flex w-full flex-wrap gap-2 md:flex-nowrap">
-      <SkeletonWrapper isLoading={statsQuery.isFetching}>
+      <SkeletonWrapper isLoading={statsQuery.isLoading}>
         <CategoriesCard
           formatter={formatter}
           type="income"
           data={statsQuery.data || []}
         />
       </SkeletonWrapper>
-      <SkeletonWrapper isLoading={statsQuery.isFetching}>
+      <SkeletonWrapper isLoading={statsQuery.isLoading}>
         <CategoriesCard
           formatter={formatter}
           type="expense"

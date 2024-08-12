@@ -235,7 +235,7 @@ function TransactionTable({ from, to }: Props) {
           <DataTableViewOptions table={table} />
         </div>
       </div>
-      <SkeletonWrapper isLoading={history.isFetching}>
+      <SkeletonWrapper isLoading={history.isLoading}>
         <div className="rounded-md border flex-1 overflow-hidden">
           <Table>
             <TableHeader>

@@ -4,6 +4,7 @@ import { ThemeProvider } from "next-themes";
 import React, { ReactNode } from "react";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
+import { DateRangeCtxProvider } from "../DateRangeCtx";
 
 function RootProviders({ children }: { children: ReactNode }) {
   const [queryClient] = React.useState(() => new QueryClient({}));
@@ -15,7 +16,7 @@ function RootProviders({ children }: { children: ReactNode }) {
         enableSystem
         disableTransitionOnChange
       >
-        {children}
+        <DateRangeCtxProvider>{children}</DateRangeCtxProvider>
       </ThemeProvider>
       <ReactQueryDevtools initialIsOpen={false} />
     </QueryClientProvider>
